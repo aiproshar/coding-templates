@@ -43,3 +43,13 @@ One interesting thing, if we want Top K elements in the stream, we can use a min
 
 Complexity:  NlgN for maxHeap with N size, NlgK with minHeap 
 Problem: https://leetcode.com/problems/top-k-frequent-elements/description/
+
+
+
+If we are using first class data types, like int, double, and we want a minHeap, we can also define 
+the comparator while creating the heap
+
+
+```c++
+ std::priority_queue<int, std::vector<int>, std::greater<int>> min_heap;
+```
