@@ -130,7 +130,7 @@ dq.erase()
 
 # Associative Containers
 
-### Set / Unordered Set 
+## Set / Unordered Set 
 Store unique elements, find them, add them
 
 Constant time lookUp/Add for unordered set, lg lookup for ordered
@@ -197,10 +197,14 @@ mp.contains(key) //-> boolean //check if element exist
 mp.find(key) //-> iterator / mp.end() if doesn't exist
 
 //Accessing element
-
 mp.at(key) - //>throws exception of not found
 mp[key]
 
+//remove single element
+mp.erase(key)
+mp.erase(iterator) //-> throws exception of not found
+//Clear all amp elements
+mp.clear()
 //Major Map Bug, 
 
     cout << mp.contains(69) << endl;; //false
@@ -208,4 +212,43 @@ mp[key]
                             //If no default empty constructor for custom data types, throws error
     cout << mp.contains(69) <<endl; //true now
 
+//Iteration over a map
+
+for (const auto& [key,value] : ump) {
+        cout << key << ":" << value << endl;
+    }
+
+//sorted Map for custom object
+//Lambda with decl type
+
+#include <map>
+#include <iostream>
+
+struct Person {
+    std::string name;
+    int age;
+};
+
+int main() {
+    // Define lambda
+    auto comp = [](const Person& a, const Person& b) {
+        return a.age < b.age;
+    };
+    
+    // Use decltype to get the lambda's type
+    std::map<Person, std::string, decltype(comp)> peopleMap(comp); //Pass the lambda on constructor
+ 
+    peopleMap.insert({{{"Alice", 30}, "Engineer"}});
+    peopleMap.insert({{{"Bob", 25}, "Designer"}});
+    peopleMap.insert({{{"Charlie", 35}, "Manager"}});
+    
+    for (const auto& [person, job] : peopleMap) {
+        std::cout << person.name << " (" << person.age << ") - " << job << "\n";
+    }
+}
 ```
+
+
+# Containers Adapters
+
+## Stack -> A FIFO
