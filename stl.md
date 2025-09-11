@@ -198,7 +198,7 @@ mp.find(key) //-> iterator / mp.end() if doesn't exist
 
 //Accessing element
 mp.at(key) - //>throws exception of not found
-mp[key]
+mp[key]  //-> reference to the value
 
 //remove single element
 mp.erase(key)
@@ -251,4 +251,142 @@ int main() {
 
 # Containers Adapters
 
-## Stack -> A FIFO
+## Queue -> FIFO
+
+```c++
+#include <queue>
+
+std::queue<int> q // Default: deque
+q.emplace(val)// O(1)
+
+q.front() //Returns REF to front element
+q.back()  //Returns REF to last element
+
+q.pop()  //Removes the first element
+
+q.empty() //-> check if its empty, return bool
+q.size() //-> current no of elements
+```
+
+## Stack -> LIFO
+
+```c++
+#include <stack>
+
+std::stack<int> stk // Default: deque
+std::stack<int, std::vector<int>> vec_stack;
+
+stk.push(10)
+stk.top()
+stk.pop()
+
+stk.empty() //-> check if its empty, return bool
+stk.size()  //-> current no of elements
+```
+
+
+## Priority Queue
+
+Constant time lookup of largest/smallest element, defined by comparator.
+
+By default its a Max Heap, but we can add greater<T> and also define lambda for custom object
+
+
+```c++
+
+#include <queue>
+
+std::priority_queue<int> pq;                    // Max heap
+std::priority_queue<int, std::vector<int>, 
+                   std::greater<int>> min_pq;   // Min heap
+
+pq.emplace(10) // O(log n)
+int top = pq.top() // O(1) -> Max or Min based on type
+//pq.top() always return a copy, not a reference
+//If you update the top value, you need to pop and push again
+//Restoring the heap property
+pq.pop() // O(log n)
+
+pq.empty() //-> check if its empty, return bool
+pq.size()  //-> current no of elements
+
+```
+
+Now lets say we have a class,  where we have people's
+property. 
+
+
+```c++
+#include <queue>
+#include <vector>
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Person {
+public:
+    string name;
+    int age;
+    double salary;
+
+    // Constructor
+    Person(string name, int age, double salary)
+        : name(move(name)), age(age), salary(salary) {}
+
+        
+    void print() const {
+        cout << left << setw(10) << "Name:" << setw(20) << name
+             << setw(6) << "Age:" << setw(5) << age
+             << setw(10) << "Salary: $" << salary << endl;
+    }
+};
+
+int main() {
+    // Create sample people
+    vector<Person> people = {
+        Person("Alice Johnson", 28, 75000),
+        Person("Bob Smith", 35, 95000),
+        Person("Charlie Brown", 28, 82000),
+        Person("Diana Prince", 42, 120000),
+        Person("Eve Davis", 31, 78000),
+        Person("Frank Miller", 35, 88000)
+    };
+
+    // 1. Priority Queue by Age (youngest first - min heap)
+    auto ageCompYoungest = [](const Person& a, const Person& b) {
+        return a.age > b.age;  // > for min heap behavior
+        return a.age < b.age;  // < for max heap behavior
+    };
+    priority_queue<Person, vector<Person>, decltype(ageCompYoungest)>
+        pqByAgeYoungest(ageCompYoungest);
+
+    for (const auto& ppl : people) {
+        pqByAgeYoungest.emplace(ppl);
+    }
+
+    while (!pqByAgeYoungest.empty()) {
+
+        pqByAgeYoungest.top().print();
+        pqByAgeYoungest.pop();
+
+    }
+
+    return 0;
+}
+```
+
+The output is like such
+
+```bash
+/Users/arafat/CLionProjects/untitled1/cmake-build-debug/untitled1
+Name:     Alice Johnson       Age:  28   Salary: $ 75000
+Name:     Charlie Brown       Age:  28   Salary: $ 82000
+Name:     Eve Davis           Age:  31   Salary: $ 78000
+Name:     Bob Smith           Age:  35   Salary: $ 95000
+Name:     Frank Miller        Age:  35   Salary: $ 88000
+Name:     Diana Prince        Age:  42   Salary: $ 120000
+
+Process finished with exit code 0
+
+
+```
