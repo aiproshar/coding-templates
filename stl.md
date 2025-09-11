@@ -1,6 +1,6 @@
 
 
-# Arrays and Linked List
+# Sequence Containers
 
 
 ## Dynamic Array Vector
@@ -128,7 +128,7 @@ dq.erase()
 ```
 
 
-# Sets and Lookup Tables
+# Associative Containers
 
 ### Set / Unordered Set 
 Store unique elements, find them, add them
@@ -141,12 +141,13 @@ Constant time lookUp/Add for unordered set, lg lookup for ordered
 
 set<type>st; //RBT
 
-unordered_set<type>st;
+unordered_set<type>st; //HasTable
 
 st.reserve() //Only possible for unordered, cause its a hashtable
 
 st.insert(element); //O(1) for unordered, lgn for unordered
 st.contains(element) -> bool //return true if found or false
+st.find(element) -> iterator, st.end() if not found
 st.erase(element/iterator) //->erases the element, return 0 or 1
                              //when we do value/element overload, 0 means not found, 1 means found & erased
 
@@ -177,3 +178,34 @@ int main() {
 ```
 
 
+## Map/Unordered Map
+
+```c++
+#include<map>
+#include<unordered_map>
+map<key_type, value_type>mp;
+
+unordered_map<key_type, value_type>ump;
+ump.reserve().  //HashTable initial allocation, only for unordered map
+
+//insert
+mp[key]=balue;
+mp.insert({key,value});
+
+//Checking Element
+mp.contains(key) //-> boolean //check if element exist
+mp.find(key) //-> iterator / mp.end() if doesn't exist
+
+//Accessing element
+
+mp.at(key) - //>throws exception of not found
+mp[key]
+
+//Major Map Bug, 
+
+    cout << mp.contains(69) << endl;; //false
+    cout << mp.at(69) << endl; //bug, inserts item using default constructor
+                            //If no default empty constructor for custom data types, throws error
+    cout << mp.contains(69) <<endl; //true now
+
+```
