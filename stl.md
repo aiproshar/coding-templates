@@ -69,6 +69,17 @@ sort(cars.begin(), cars.end(), [](const Car& a , const Car& b){return a.speed > 
 
 // a > b -> descending
 // a < b -> ascending
+
+/*
+But theres another Option, You can declare the lambda separately and pass it on the sort function.
+*/
+
+auto lambda = [](const Car& a , const Car& b){
+    return a.speed < b.speed; //Ascending
+    };
+
+sort(cars.begin(), cars.end(), lambda); //Less likely to make syntax mistakes
+
 ```
 
 ## List 
@@ -89,9 +100,100 @@ lst.back()  //-> back element ref
 lst.pop_front() //O(1)
 lst.pop_back() //O(1)
 
-list.erase(iterator); //example: LRU cache
+//List is more useful when we do want to insert/delete element 
+//at some position, referenced by iterator.
+//For example, we store Key,ListNodeIterator in a hashtable,
+//we can remove value 4 from the list in constant time, 
+//because we already know the node potition, we dont need a linear
+//traverse
 
+list.erase(iterator); //example: LRU cache
 ```
+Let me Dump the LRU cache problem here, where using list is a must
+
+In LRU cache, we need both sequence and constant time modification, addition and removal of elements of those sequence. The only way to achieve thi is to use a list
+
+```c++
+
+//Super Hard, first time i was forced to use iterator to store Address of linked list nodes
+// 1. We need to data structures to serve two purpose, one is too help us do the constant get lookups, push / update keys. A unordered_map aka HashTable
+// 2. we also need to invalidate cache, need a FIFO structure, so we can get oldest key and remove it from map.
+// Corner case-> on update/get operation, we need to modify the fifo queue, need to find the old entry and refresh it (push at end)
+//  refreshKey -> we update FIFO so our recently accessed key's lifespan is increased
+class HashNode{
+public:
+    int value;
+    list<int>::iterator lst_it;
+    HashNode(int value, list<int>::iterator lst_it){
+        this->value = value;
+        this->lst_it = lst_it;
+    }
+    HashNode(){}
+
+
+};
+
+class LRUCache {
+
+private:
+    list<int> lst;
+    unordered_map<int, HashNode> mp;
+    int capacity;
+    void refreshKey(int key){
+            lst.push_back(key);
+            lst.erase(mp[key].lst_it);
+            mp[key].lst_it = prev(lst.end());
+    }
+    
+public:
+    LRUCache(int capacity) {
+        mp = unordered_map<int, HashNode>();
+        mp.reserve(100);
+        lst = list<int>();
+        this->capacity = capacity;
+    }
+    
+    int get(int key) {
+         if(!mp.contains(key)){
+            return -1;
+         }else{
+            
+            refreshKey(key);
+            return mp[key].value;
+
+         }
+    }
+    
+    void put(int key, int value) {
+        if(mp.contains(key)){
+
+            refreshKey(key);
+            mp[key].value = value;
+
+        }else{
+            lst.push_back(key);
+            auto node = HashNode(value, prev(lst.end()));
+            mp[key] = node;
+
+            if(mp.size() > capacity){
+                mp.erase(lst.front());
+                lst.pop_front();
+            }
+        }
+    }
+};
+
+/**
+ * Your LRUCache object will be instantiated and called as such:
+ * LRUCache* obj = new LRUCache(capacity);
+ * int param_1 = obj->get(key);
+ * obj->put(key,value);
+ */
+```
+
+
+
+
 
 
 ## Double Ended Queue
