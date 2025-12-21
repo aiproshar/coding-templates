@@ -56,3 +56,10 @@ class Solution:
         return total_cost
 ```
 ![Disconnected Graph](./assets/images/disconnected_graph.png)
+
+
+# Complexity
+TIme complexity: E operations on the Heap , So O(E log E)
+Space complexity: O(V + E)
+
+If you want explanation, past the code to claude and ask. YaY
