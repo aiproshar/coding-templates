@@ -80,7 +80,11 @@ def union(self, node1: int, node2: int, parent: list[int], rank: list[int]) -> b
         return True
     # The return is very important, from that we can reduce the initial DSU count, which was equal to no of nodes. True means two set joined, hence we reduce one (you might be thinking a group of 5 nodes and 8 nodes joined, why we only decrease one ? Because when we created the 5 nodes and 8 nodes group, we decreased them already)
 ```
-
+## Time and Space Complexity
+ Time complexity: O(V+E). How ?
+    - Parent and Rank initilization O(V)
+    - E times calling union, O(E × α(V)), but  α(V) [Inverse Ackermann Function] is 4 for known universe, we can treat is as a constant, so its O(E)
+    - Space complexity: O(V) for parent and rank arrays
 
 ## MUST DO while revisit problems
 
