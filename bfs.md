@@ -136,26 +136,46 @@ def bfs(source, adj_list: defaultdict(list)) -> None:
 For some problems where we have more than one source, the idea is first do a pass and
 push all the sources into the queue.
 
+
+## Finding all the sources and creating a source list
 ```python
-que = deque()
-        for x in range(len(rooms)):
-            for y in range(len(rooms[0])):
-                if source_contidion is True:
-                    # Current cell is source, append to queue
-                    que.append((x,y))
-        direction = [
-            (-1, 0),
-            (0, -1),
-            (1, 0),
-            (0, 1)
-        ]
-        while que:
-            x, y = que.popleft()
-            for dx, dy in direction:
-                nx, ny = x+dx, y+dy
-                if 0 <= nx < len(rooms) and 0 <= ny < len(rooms[0]):
-                    # Other stuffs
-                    # check if we have separate visited data
-                    # Any logic
-                    que.append((nx, ny))
+sources = []
+for x in range(len(grid)):
+    for y in range(len(grid[0])):
+        if source_condition is True:
+        # example grid[x][y] == 1
+            sources.append((x,y))
+
+```
+
+### Doing the BFS explore
+```python
+# The source will be a list of tuples
+def bfs(heights, sources: list[tuple[int, int]]) -> set:
+            que = deque()
+            visited = set()
+            for source in sources:
+                que.append(source)
+                visited.add(source)
+            # example direction for 2D grid LR UD movement
+            direction = [
+                (1, 0),
+                (0, 1),
+                (-1, 0),
+                (0, -1)
+            ]
+            while que:
+                x, y = que.popleft()
+                for dx, dy in direction:
+                    nx, ny = x + dx, y + dy
+                    # check boundary
+                    if 0 <= nx < len(heights) and 0 <= ny < len(heights[0]):
+                        # Can be any validation logic for child explre
+                        # Below is just an example
+                        if heights[nx][ny] >= heights[x][y] and (nx, ny) not in visited:
+                            # Add to que also add to visited, or modify original
+                            # in such a way we dont do revisit, eg. marking as None
+                            visited.add((nx, ny))
+                            que.append((nx, ny))
+            return # What is relevant, childs explore, grid if its modified, cost whatever
 ```
