@@ -131,3 +131,31 @@ def bfs(source, adj_list: defaultdict(list)) -> None:
                     
 ```
 
+## Multi Source BFS
+
+For some problems where we have more than one source, the idea is first do a pass and
+push all the sources into the queue.
+
+```python
+que = deque()
+        for x in range(len(rooms)):
+            for y in range(len(rooms[0])):
+                if source_contidion is True:
+                    # Current cell is source, append to queue
+                    que.append((x,y))
+        direction = [
+            (-1, 0),
+            (0, -1),
+            (1, 0),
+            (0, 1)
+        ]
+        while que:
+            x, y = que.popleft()
+            for dx, dy in direction:
+                nx, ny = x+dx, y+dy
+                if 0 <= nx < len(rooms) and 0 <= ny < len(rooms[0]):
+                    # Other stuffs
+                    # check if we have separate visited data
+                    # Any logic
+                    que.append((nx, ny))
+```
