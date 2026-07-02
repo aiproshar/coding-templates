@@ -8,7 +8,7 @@ Using DFS we can also find finish time, which's reverse is topological sort
 - **Undirected Graph**: Valid Tree or Not ? Forest ? How many trees in the forest ?
 
 
-### Cycle Detection in Directed Graph
+# Cycle Detection in Directed Graph
 
 The core logic is simple, we try to do back-edge detection. What is a back-edge ?
 A back-edge is we going back to the same node which is in current recursion stack. A cycle is formed
@@ -76,3 +76,54 @@ def dfs(self, source, adj_list: defaultdict(list), color: list, finish_time) -> 
 # finish_time[::-1] -> the topological sort, reverse of finish time
 ```
 Note: same as before, we must run DFS on each source, if source already BLACK skip. This includes totally disconnected and non SCC nodes
+
+# Cycle detection in undirected graph
+
+In an undirected graph, if it's not a Tree then it has cycle.
+One quick way is a tree of n nodes will always have n-1 edges, not more not less.
+But even with n-1, there can be forest, two completely separated trees, so we also need to check that
+
+Early Termination: A undirected graph without cycle is tree, so a tree with n nodes must have n-1 edges, but we also need to check for forest and back-edge.
+If we dont have exactly n-1 edges, we can early terminate
+
+## Edge cases
+- child of current node can be parent, as the graph is undirected. We must exclude this. How we do this ? We need to know the parent of 
+current node, so if we send this along with the param, we good. A seperate parent dict also work but overkill
+- We must keep a visited set or also can use visited_count as count of nodes we mark black. If The graph is a forest, we will have less
+than n vertex marked as visited. 
+```python
+def dfs(node, parent) -> bool:
+    color[node] = GREY
+    for child in adj_list[node]:
+        
+        #skip inserting the parent of current node
+        if child == parent:
+            continue
+        if color[child] == GREY:
+            return True
+        if color[child] == WHITE:
+            if dfs(child, node) is True:
+                return True
+    color[node] = BLACK
+    visited.add(node)
+    return False
+
+if dfs(0, None) is True:
+    return False
+if len(visited) != n:
+    return False
+return True
+```
+
+### So condition to check after running DFS on undirected graph
+
+```python
+    # check for back-edge means cycle
+    if dfs(0, None) is True:
+        return False
+    # check for forest
+    if len(visited) != n:
+        return False
+    # No Cycle no forest, we good
+    return True
+```
