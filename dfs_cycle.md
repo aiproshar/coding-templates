@@ -40,16 +40,19 @@ That's why we need to mark visited/explored nodes as black, and iterate through 
 for source in sources:
     if color[source] == WHITE:
         # We are trying to detect a cycle
-        if dfs(source, adj_list, color) is True:
-            print("We have backedge and cycle")
-print("No cycle detected in graph")
-
+        if dfs(source, adj_list, color):
+            # Return as soon as we find a cycle, don't keep going
+            return False
+# Every source explored, no back-edge found
+return True
 ```
 
 
 ### Topo Sort in a directed graph → Almost same as cycle detection, we just push Nodes as they become BLACK
 
 Because a node only turns Black after all of its downstream dependencies are completely processed, recording the nodes in the reverse order of them turning Black gives us a perfectly valid topological sort.
+
+This only holds if the graph is a DAG. If there is a cycle there is no valid topological order at all, so run the same back-edge check first and bail out on a cycle.
 
 
 
@@ -79,7 +82,7 @@ Note: same as before, we must run DFS on each source, if source already BLACK sk
 
 # Cycle detection in undirected graph
 
-In an undirected graph, if it's not a Tree then it has cycle.
+In an undirected graph, a connected graph that isn't a Tree has a cycle (a disconnected acyclic graph is a forest, not a cycle).
 One quick way is a tree of n nodes will always have n-1 edges, not more not less.
 But even with n-1, there can be forest, two completely separated trees, so we also need to check that
 
