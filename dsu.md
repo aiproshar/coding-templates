@@ -20,6 +20,10 @@ rank = [1 for x in range(n)] # initially each union has only one dude
 
 #### Initially, we have all disconnected nodes, so n disjoint sets. Whenever we are able to union two nodes, we reduce that by one
 
+## What is Rank?
+
+Rank is an **upper bound on the height of the tree** at a root. We always attach the smaller-rank tree under the larger-rank one, which keeps trees flat (`O(log n)` height) and makes `find` fast. Rank is only bumped when both roots have equal rank — attaching a shorter tree under a taller one doesn't change its height.
+
 ### The FIND function
 
 find figures out the root/leader of any node. How we do it ? remember, a root is that node where it itself is its parent. So we continue climbing up until we find the parent
@@ -70,13 +74,17 @@ def union(self, node1: int, node2: int, parent: list[int], rank: list[int]) -> b
         root2 = self.find(node2, parent)
         if root1 == root2:
             return False
-        if rank[root1] >= rank[root2]:
-            # We update parent of root, path compression will update the node parents later
+        # Three distinct cases based on rank: >, <, ==
+        if rank[root1] > rank[root2]:
+            # root1 is taller -> attach root2 under root1, height unchanged, no rank bump
+            parent[root2] = root1
+        elif rank[root1] < rank[root2]:
+            # root2 is taller -> attach root1 under root2, height unchanged, no rank bump
+            parent[root1] = root2
+        else:
+            # equal rank -> attach either way, height grows by 1, bump the new root's rank
             parent[root2] = root1
             rank[root1] += 1
-        else:
-            parent[root1] = root2
-            rank[root2] += 1
         return True
     # The return is very important, from that we can reduce the initial DSU count, which was equal to no of nodes. True means two set joined, hence we reduce one (you might be thinking a group of 5 nodes and 8 nodes joined, why we only decrease one ? Because when we created the 5 nodes and 8 nodes group, we decreased them already)
 ```
