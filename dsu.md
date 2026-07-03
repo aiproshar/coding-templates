@@ -91,7 +91,7 @@ def union(self, node1: int, node2: int, parent: list[int], rank: list[int]) -> b
 ## Time and Space Complexity
  Time complexity: O(V+E). How ?
     - Parent and Rank initilization O(V)
-    - E times calling union, O(E × α(V)), but  α(V) [Inverse Ackermann Function] is 4 for known universe, we can treat is as a constant, so its O(E)
+- E times calling union, O(E × α(V)), but  α(V) [Inverse Ackermann Function] is 4 for known universe, we can treat is as a constant (α(V) ~ 4 ), so its O(E)
     - Space complexity: O(V) for parent and rank arrays
 
 ## MUST DO while revisit problems
