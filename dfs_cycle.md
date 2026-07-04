@@ -1,4 +1,4 @@
-## DFS 
+## DFS [Directed, Undirected]
 
 We can use DFS for cycle detection in directed graph. In undirected graph, cycle detection means the graph is a not valid tree
 Using DFS we can also find finish time, which's reverse is topological sort

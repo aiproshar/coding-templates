@@ -1,4 +1,4 @@
- ## Backtrack Basics
+ # Backtrack Basics
  
 There is basically one single framework, CCG: Choices, Constrains, Goals
 

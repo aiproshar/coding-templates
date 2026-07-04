@@ -1,4 +1,4 @@
-# Minimum Spanning Tree
+# Minimum Spanning Tree [Undirected Only]
 
 For any connected undirected graph, the spanning tree is a subgraph where each component is connected. For a graph G = V,E a spanning tree has V-1 edges. Any tree will have V-1 edges.
 

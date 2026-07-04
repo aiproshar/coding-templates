@@ -1,4 +1,4 @@
-# Disjoint Set Union / Union Find (For undirected Only)
+# Disjoint Set Union / Union Find  [Undirected Only]
 
 Initially each set is root of its own. For Any DSU operation, we need to implement two methods
 

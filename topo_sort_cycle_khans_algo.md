@@ -1,4 +1,4 @@
-## Khan's Algorithm (For Directed Only)
+# Khan's Algorithm [Directed Only]
 
 
 We can use this to do three different things
