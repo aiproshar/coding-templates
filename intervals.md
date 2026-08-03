@@ -21,7 +21,9 @@ but there maybe X2 also ended Before X1, and all other cases
 - X1 extends X2, Vice Versa
 
 The only reliable way is to compare the diagonals, that's it
+
 ![interval overlap](assets/images/intervals_overlap.png)
+
 See the *BLUE* and *RED* diagonals, The start must be always before. All possible 4 overlaps 
 scenarios are validated by this
 
@@ -135,9 +137,12 @@ A is a list of intervals, where intervals are non overlapping. Same for B
 **_Each list of intervals is pairwise disjoint and in sorted order_**
 
 But A and B has common overlays, we need to find them
+
 ![img.png](assets/images/intersection_intervals.png)
+
 We use two pointer methind, also need to make sure we sort A and B if not already sorted
 Problem: https://leetcode.com/problems/interval-list-intersections
+
 ```python
 class Solution:
     def intervalIntersection(self, firstList: List[List[int]], secondList: List[List[int]]) -> List[List[int]]:
@@ -171,9 +176,11 @@ any interval a later-ending pick could accommodate, the earlier-ending pick can 
 
 
 ![img.png](assets/images/start_time_sort_intervals.png)
+
 See, we sorted based on start time (bottom to up)  and the first meeting eating all of them, cause its the largest
 
 Solution: Sort by end time, meeting that ends earliest frees up for newer meeting
+
 ![img.png](assets/images/end_time_sort_intervals.png)
 
 Example Problem: https://leetcode.com/problems/non-overlapping-intervals/
