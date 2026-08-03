@@ -49,6 +49,7 @@ why we sort, and we only check for neighbors one by one
   intervals are active at once** (Meeting Rooms II, max overlap).
 
 ### **_1. Segment Sweep_**
+Problem: https://leetcode.com/problems/merge-intervals
 ```python
 # Example of Segment Sweep: LeetCode 56 Merge overlapped intervals
 # Point to be noted we dont doing exact diagonal check, 
@@ -69,6 +70,7 @@ class Solution:
         return merged
 ```
 ### **_2. Event Sweep_**
+Problem: https://leetcode.com/problems/meeting-rooms-ii
 
 This one is a bit interesting and also complicated, but it's beautiful. We want to know how
 many intervals are we in currently, example no of meeting rooms we need
@@ -103,6 +105,7 @@ if its opening we increase current concurrent, if closing event we decrease
 # Space Complexity: O(n)**
 ```
 ### **_3. Max Overlap Using Heap [Event Sweep Alternative]_**
+Problem: https://leetcode.com/problems/meeting-rooms-ii
 
 We can also use a heap to find max overlaps on interval. 
 Idea is simple, a heap holds all the current meetings end time, We insert one by one, sorted based on
@@ -202,3 +205,7 @@ class Solution:
                 last_interval = intervals[i]
         return to_remove
 ```
+
+## Additional Problems to Solve
+- https://leetcode.com/problems/minimum-number-of-arrows-to-burst-balloons/description/
+- https://leetcode.com/problems/employee-free-time/description/
