@@ -1,10 +1,11 @@
-# Binary Search — Three Core Templates
+# Binary Search — One Template
 
 Binary search is O(log n). The idea is never the hard part — getting the loop
-condition, the boundary updates, and the return value exactly right is. Three
-templates cover almost everything.
+condition, the boundary updates, and the return value exactly right is. This
+note uses **a single half-open skeleton** for everything, so there is only one
+set of rules to remember.
 
-One example array throughout, so you can see how each template behaves on the
+One example array throughout, so you can see how each query behaves on the
 **same** input:
 
 ```
@@ -14,145 +15,149 @@ One example array throughout, so you can see how each template behaves on the
     target = 5   (lives at indices 2, 3, 4)
 ```
 
-- **Template 1 (exact):**      returns `3`  — any 5
-- **Template 2 (left bound):** returns `2`  — first 5
-- **Template 3 (right bound):** returns `4` — last 5
+- **exact:**       returns `2` (or -1 if absent) — via left bound + a check
+- **left bound:**  returns `2`  — first 5
+- **right bound:** returns `4`  — last 5
 
-Same array, same target, three different answers. They only differ in what they
-do when they **find** a match:
+Same array, same target, different answers — but **the same loop**. They only
+differ in **one comparison operator** and how you read the result.
 
-- exact → return immediately
-- left bound → keep searching left (`hi = mid`)
-- right bound → keep searching right (`lo = mid`, mid rounded up)
-
-## Template 1 — Exact Match
-
-Find ANY index of a specific value, or `-1` if absent.
+## The Skeleton — memorize this once
 
 ```python
-def binary_search_exact(nums: list[int], target: int) -> int:
-    lo = 0
-    hi = len(nums) - 1
-
-    while lo <= hi:                 # space can shrink to one element
-        mid = (lo + hi) // 2
-
-        if nums[mid] == target:
-            return mid              # found it, done
-        elif nums[mid] < target:
-            lo = mid + 1            # target is right, exclude mid
-        else:
-            hi = mid - 1            # target is left, exclude mid
-
-    return -1                       # exhausted, not found
+def bound(nums: list[int], target: int) -> int:
+    lo, hi = 0, len(nums)          # half-open range [lo, hi)  — hi = len, not len-1
+    while lo < hi:                 # strict <  — converges when lo == hi
+        mid = (lo + hi) // 2       # always round DOWN
+        if <go-right condition>:   # mid is too small / still ok — discard it
+            lo = mid + 1
+        else:                      # mid could be the answer — keep it
+            hi = mid
+    return lo                      # insertion point, always in [0, len(nums)]
 ```
 
-- Loop is `lo <= hi` — the last candidate is when `lo == hi`, so we must still
-  check it.
-- Both bounds exclude `mid` (`mid + 1`, `mid - 1`), and there is an early return
-  on match.
+Four fixed rules, never vary:
 
-## Template 2 — Left Bound  (lower bound / find minimum)
+1. **`hi = len(nums)`** — half-open. Lets the answer converge to `len` ("insert
+   at end") instead of being capped at the last index.
+2. **`while lo < hi`** — strict. With `hi = mid`, using `<=` infinite-loops when
+   `lo == hi == mid`.
+3. **`mid = (lo + hi) // 2`** — always round down. No `+1` gotcha, because the
+   `keep-mid` branch is `hi = mid` (which always shrinks), never `lo = mid`.
+4. **Updates are always `lo = mid + 1` / `hi = mid`** — the go-right branch
+   excludes mid, the keep branch retains it.
 
-Find the LEFTMOST index that satisfies a condition. Classic use: first
-occurrence of target.
+Everything below is this skeleton with a different `<go-right condition>` and a
+different way of reading `lo`.
+
+## Left Bound (lower bound / `bisect_left`)
+
+First index where `nums[i] >= target`. Go right while `mid` is strictly too
+small.
 
 ```python
-def binary_search_left_bound(nums: list[int], target: int) -> int:
-    lo = 0
-    hi = len(nums)                  # NOTE: len(nums), not len(nums) - 1
-    # if every element is < target, lo converges to len(nums) = "insert at end"
-
-    while lo < hi:                  # strict! converges when lo == hi
+def left_bound(nums: list[int], target: int) -> int:
+    lo, hi = 0, len(nums)
+    while lo < hi:
         mid = (lo + hi) // 2
+        if nums[mid] < target:      # strictly less  -> answer is to the right
+            lo = mid + 1
+        else:                       # >= target      -> mid could be first, keep
+            hi = mid
+    return lo
+```
 
-        if nums[mid] >= target:     # condition met: mid COULD be the answer
-            hi = mid                # keep mid, search left
+- Returns the leftmost slot for `target`, or where it would be inserted if absent.
+- This is exactly `searchInsert` / `bisect_left`.
+
+## Right Bound (upper bound / `bisect_right`)
+
+First index where `nums[i] > target`. **Identical to left bound except `<`
+becomes `<=`.** That single operator is the entire difference between the two
+bounds.
+
+```python
+def right_bound(nums: list[int], target: int) -> int:
+    lo, hi = 0, len(nums)
+    while lo < hi:
+        mid = (lo + hi) // 2
+        if nums[mid] <= target:     # <= target  -> answer is to the right
+            lo = mid + 1
+        else:                       # > target   -> mid could be first-greater, keep
+            hi = mid
+    return lo
+```
+
+- Returns one **past** the last `target` (the gap after all copies).
+- Last occurrence of `target` is therefore `right_bound(nums, target) - 1`.
+
+## Exact Match
+
+No separate template needed — it is left bound plus a verification tail. The
+`while` loop finds where `target` *would* go; then you check whether it is
+actually there.
+
+```python
+def exact(nums: list[int], target: int) -> int:
+    lo, hi = 0, len(nums)
+    while lo < hi:
+        mid = (lo + hi) // 2
+        if nums[mid] < target:
+            lo = mid + 1
         else:
-            lo = mid + 1            # too small, skip mid
-
+            hi = mid
+    # lo is now the insertion point — verify a real match sits there
     if lo < len(nums) and nums[lo] == target:
         return lo
     return -1
 ```
 
-- **`hi = mid`, not `mid - 1`** — mid might be the answer, do not throw it away.
-- **`lo < hi`, not `lo <= hi`** — with `hi = mid`, using `<=` infinite-loops
-  when `lo == hi == mid`. Strict `<` terminates at the convergence point.
-- The `==` case is NOT special — "equals target" and "condition met" are the
-  same branch (both shrink `hi`).
-
-## Template 3 — Right Bound  (find maximum)
-
-Find the RIGHTMOST index that satisfies a condition. Classic use: last
-occurrence of target.
-
-```python
-def binary_search_right_bound(nums: list[int], target: int) -> int:
-    if not nums:
-        return -1
-
-    lo = 0
-    hi = len(nums) - 1
-
-    while lo < hi:
-        mid = (lo + hi + 1) // 2    # round UP — see below
-
-        if nums[mid] <= target:     # condition met: mid COULD be the answer
-            lo = mid                # keep mid, search right
-        else:
-            hi = mid - 1            # too big, skip mid
-
-    if nums[lo] == target:
-        return lo
-    return -1
-```
-
-- **`mid = (lo + hi + 1) // 2` — round UP.** This is the #1 gotcha. When
-  `lo + 1 == hi` and the condition is met, we do `lo = mid`. If `mid` rounds
-  down it equals `lo`, so `lo = lo` → infinite loop. Rounding up makes
-  `mid == hi`, so `lo = hi` and the loop ends.
-- Mirror image of left bound: on a match we set `lo = mid` and keep going right.
+- The two guards matter: `lo` can equal `len(nums)` (target bigger than
+  everything, so `nums[lo]` would be out of bounds — check `lo < len(nums)`
+  first), and even in-bounds `nums[lo]` might simply not equal `target`.
 
 ## Cheat Sheet
 
 ```
-  Template       Loop       mid formula        On match      On miss        Return
-  ─────────────  ─────────  ─────────────────  ────────────  ─────────────  ──────
-  Exact match    lo <= hi   (lo + hi) // 2     return mid    lo=mid+1 /     -1
-                                                             hi=mid-1
-  Left bound     lo < hi    (lo + hi) // 2     hi = mid      lo = mid + 1   lo
-  (find min)
-  Right bound    lo < hi    (lo + hi + 1) // 2 lo = mid      hi = mid - 1   lo
-  (find max)                ↑ round up!
+  Query          go-right condition     Return                     Notes
+  ─────────────  ─────────────────────  ─────────────────────────  ──────────────────
+  Left bound     nums[mid] <  target    lo                         bisect_left
+  Right bound    nums[mid] <= target    lo                         bisect_right
+  Exact match    nums[mid] <  target    lo if nums[lo]==target      left bound + check
+                                        else -1
+
+  ALL THREE share:  lo,hi = 0,len(nums) · while lo < hi · mid=(lo+hi)//2 (round down)
+                    lo = mid + 1  /  hi = mid
 ```
+
+The only knob is `<` vs `<=`. Exact match reuses `<` and adds a check.
 
 ## Decision Guide
 
-1. Looking for a specific value? → **Template 1** (exact).
-2. Looking for the SMALLEST value satisfying a condition? → **Template 2**
-   (left bound): `hi = mid`, mid rounds down.
-3. Looking for the LARGEST value satisfying a condition? → **Template 3**
-   (right bound): `lo = mid`, mid rounds **up**.
+1. Need a specific value's index? → **exact** (left bound, then verify `nums[lo]`).
+2. Need the leftmost position where a condition first holds? → **left bound**
+   (`<` in the go-right test).
+3. Need one-past the rightmost position, or the last occurrence? → **right
+   bound** (`<=`), then subtract 1 for the last index.
 
-When the target is missing, left bound converges onto the first element `>`
-target (`bisect_left` — "where would it be inserted?") and right bound onto the
-last element `<` target (predecessor query). Neither tells you it is missing —
-check `nums[lo]` afterward if you need an exact match.
+When the target is missing, left and right bound return the **same** index — the
+single gap where it would be inserted. They can only diverge when at least one
+copy is present; the size of the gap between them is exactly the count of copies.
 
-## Common Pitfalls
+## Derived queries (all from the two bounds)
 
-1. **Off-by-one in `hi` init** — exact & right bound use `len(nums) - 1`, left
-   bound uses `len(nums)` (so "not found" can converge past the end).
-2. **Forgetting to round up in right bound** → infinite loop when `lo + 1 == hi`.
-3. **Using `lo <= hi` with `hi = mid`** → infinite loop when `lo == hi == mid`.
-4. **Early return in the bound templates** → returns the first match found, not
-   the actual min/max. Only Template 1 returns early.
+```python
+count          = right_bound(nums, x) - left_bound(nums, x)   # occurrences of x
+first_index    = left_bound(nums, x)                          # if nums[i]==x
+last_index     = right_bound(nums, x) - 1                     # if valid & ==x
+num_less_than  = left_bound(nums, x)                          # elements < x
+num_less_equal = right_bound(nums, x)                         # elements <= x
+```
 
 ## Python's `bisect` — don't hand-roll it
 
-The standard library already ships Templates 2 and 3 as `bisect`. In an
-interview or real code, reach for this first — it is C-fast and bug-free.
+The standard library already ships both bounds as `bisect`. In an interview or
+real code, reach for this first — it is C-fast and bug-free.
 
 ### The one idea: the optimal insertion point
 
@@ -160,13 +165,6 @@ interview or real code, reach for this first — it is C-fast and bug-free.
 tells you *the single index where `x` belongs so the list stays sorted*. That
 index is the "insertion point", and it is the whole purpose of the module — the
 name is literally short for "binary bisection to find where to insert".
-
-Think of a sorted row of theatre seats already filled by height, shortest on the
-left. A new person walks in. There is exactly **one** gap they can slip into
-without anyone having to swap seats — just left of the first person taller than
-them. `bisect` finds that gap in O(log n) by repeatedly halving the row instead
-of walking it person by person. It never actually seats anyone (that is
-`insort`'s job); it only points at the gap.
 
 ```
     heights = [150, 160, 165, 172, 180]
@@ -178,37 +176,29 @@ of walking it person by person. It never actually seats anyone (that is
                   "168 goes here — right after 165, before 172"
 ```
 
-Here is the payoff, and why the rest of this section is so short: **every other
-query is just this one number, read differently.**
+Every other query is just this one number, read differently:
 
-- Want the *count of elements `< x`*? That is the insertion point itself —
-  everything to its left is smaller.
-- Want to *find* `x`? Look at the insertion point; if `nums[i] == x`, it is
-  there, else it is absent.
-- Want the *floor* (largest `<= x`)? Step one left of the insertion point.
-- Want to *insert and stay sorted*? Drop `x` into the insertion point.
+- Count of elements `< x`? The insertion point itself.
+- Find `x`? Look at the insertion point; if `nums[i] == x` it is there, else absent.
+- Floor (largest `<= x`)? Step one left of the insertion point.
+- Insert and stay sorted? Drop `x` into the insertion point.
 
-So you are never really "searching" — you are asking "where does this belong?"
-and then interpreting that gap. `bisect_left` and `bisect_right` are just two
-flavours of the same gap: when duplicates of `x` already exist, `_left` gives
-the gap *before* them, `_right` gives the gap *after* them.
+`bisect_left` and `bisect_right` are just two flavours of the same gap: when
+duplicates of `x` exist, `_left` gives the gap *before* them, `_right` the gap
+*after*.
 
 > **Gotcha: `bisect` never tells you whether `x` exists.** It always returns an
 > insertion point — a valid index in `0..len(nums)` — even when `x` is absent,
 > because *some* gap always exists. `bisect_left(nums, 6)` on `[1,3,5,5,5,7,9]`
 > returns `5`, the same index it would return if a `6` were actually there. So
 > the returned index is "where `x` would go", **not** "where `x` is". If you
-> need an exact-match answer, you must check it yourself:
+> need an exact-match answer, verify it yourself — this is exactly the tail in
+> the `exact` function above:
 >
 > ```python
 > i = bisect.bisect_left(nums, x)
 > found = i < len(nums) and nums[i] == x    # <-- YOU must verify
 > ```
->
-> Two things to guard: `i` can equal `len(nums)` (x is bigger than everything,
-> so indexing `nums[i]` would go out of bounds — check `i < len(nums)` first),
-> and even in-bounds, `nums[i]` might simply not equal `x`. This is exactly the
-> `if lo < len(nums) and nums[lo] == target` tail from Template 2.
 
 ```python
 import bisect
@@ -216,18 +206,11 @@ import bisect
 nums = [1, 3, 5, 5, 5, 7, 9]
 #        0  1  2  3  4  5  6
 
-bisect.bisect_left(nums, 5)    # -> 2   leftmost slot for 5  (== Template 2)
-bisect.bisect_right(nums, 5)   # -> 5   rightmost slot for 5 (one past last 5)
+bisect.bisect_left(nums, 5)    # -> 2   leftmost slot for 5  (== left bound)
+bisect.bisect_right(nums, 5)   # -> 5   rightmost slot for 5 (== right bound)
 bisect.bisect(nums, 5)         # -> 5   alias for bisect_right
-```
 
-Both return an **insertion index** that keeps the list sorted. The difference is
-only how they treat equals: `bisect_left` lands *before* existing copies,
-`bisect_right` lands *after* them. When the value is absent they return the same
-thing — the gap where it would go:
-
-```python
-bisect.bisect_left(nums, 6)    # -> 5   6 would be inserted at index 5
+bisect.bisect_left(nums, 6)    # -> 5   6 would be inserted at index 5 (absent)
 bisect.bisect_left(nums, 0)    # -> 0   smaller than everything
 bisect.bisect_left(nums, 10)   # -> 7   bigger than everything (== len)
 ```
@@ -258,9 +241,9 @@ def last(nums, x):
 # 2. Count occurrences of x in a sorted list — O(log n)
 count = bisect.bisect_right(nums, x) - bisect.bisect_left(nums, x)
 
-# 3. Count how many elements are < x, <= x, > x, etc.
-less_than       = bisect.bisect_left(nums, x)          # elements strictly < x
-less_or_equal   = bisect.bisect_right(nums, x)         # elements <= x
+# 3. Count how many elements are < x, <= x
+less_than     = bisect.bisect_left(nums, x)      # elements strictly < x
+less_or_equal = bisect.bisect_right(nums, x)     # elements <= x
 
 # 4. Floor / predecessor (largest element <= x), or -1
 def floor(nums, x):
@@ -283,10 +266,22 @@ Rule of thumb: `bisect_left(a, x)` = "how many are strictly less than `x`" and
 also "leftmost place `x` fits"; `bisect_right(a, x)` = "how many are `<= x`".
 Almost every sorted-array counting question reduces to those two.
 
-## MUST DO while revisit problems
+## Common Pitfalls
+
+1. **Using `len(nums) - 1` for `hi`** — with the half-open skeleton `hi` is
+   always `len(nums)` so the answer can converge past the end ("insert at end").
+2. **Using `lo <= hi`** — with `hi = mid` this infinite-loops when
+   `lo == hi == mid`. Always strict `<`.
+3. **Reaching for `lo = mid` / round-up** — you never need it here. The keep
+   branch is always `hi = mid`, which always shrinks, so `mid` always rounds
+   down. (Round-up is only required in the *inclusive* `[lo, hi]` style, which
+   this note avoids entirely.)
+4. **Trusting the bound as an exact match** — a bound is always an insertion
+   point; verify `nums[lo] == target` (with the `lo < len(nums)` guard) if you
+   need existence.
+
+## MUST DO while revisiting problems
 
 * https://leetcode.com/problems/binary-search/  (exact match)
-
 * https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/  (left + right bound)
-
 * https://leetcode.com/problems/search-insert-position/  (left bound / bisect_left)
