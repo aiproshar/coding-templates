@@ -70,7 +70,10 @@ class Solution:
         return merged
 ```
 ### **_2. Event Sweep_**
-Problem: https://leetcode.com/problems/meeting-rooms-ii
+Problem: 
+- https://leetcode.com/problems/meeting-rooms-ii
+- https://leetcode.com/problems/car-pooling/ (bit advanced, same pattern, section 6)
+- https://leetcode.com/problems/number-of-flowers-in-full-bloom/description (Hardest Sweep Pattern)
 
 This one is a bit interesting and also complicated, but it's beautiful. We want to know how
 many intervals are we in currently, example no of meeting rooms we need
@@ -205,6 +208,18 @@ class Solution:
                 last_interval = intervals[i]
         return to_remove
 ```
+
+### **_6. Coverage Counting_**
+How many overlaps at this point ?  Extension of line sweep
+
+Example Problem
+- https://leetcode.com/problems/number-of-flowers-in-full-bloom
+- https://leetcode.com/problems/my-calendar-iii
+- https://leetcode.com/problems/car-pooling
+
+
+
+
 
 ## Additional Problems to Solve
 - https://leetcode.com/problems/minimum-number-of-arrows-to-burst-balloons/description/
