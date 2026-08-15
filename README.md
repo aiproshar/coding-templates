@@ -30,6 +30,12 @@ All code is Python.
 | [Intervals](intervals.md) | The overlap test, segment sweep (merge), event sweep (max concurrent), the heap alternative, interval intersection with two pointers, and the sort-by-end-time greedy. |
 | [Two Pointers & Sliding Window](two_pointer_sliding_window.md) | 🚧 Stub — not written yet. |
 
+## Sorting & Heaps
+
+| Topic | What's inside |
+| --- | --- |
+| [Sorting & Heaps](sort_heap.md) | Five ways to sort without the built-in (LC 912), ordered by what to reach for under pressure: selection sort, `heapq`, merge sort, a from-scratch `Heap` class (push/pop, bubble up/down), and true in-place heapsort for the constant-space follow-up. |
+
 ## Recursion & DP
 
 | Topic | What's inside |
@@ -41,7 +47,6 @@ All code is Python.
 
 Not written yet:
 
-- Sorting & Heaps
 - Trees (traversals, BST)
 - Monotonic stack
 - Prefix sums
