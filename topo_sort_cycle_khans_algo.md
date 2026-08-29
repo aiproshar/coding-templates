@@ -31,8 +31,16 @@ def topological_sort_known_n(n, edges):
 
     # Build the adjacency list and calculate in-degrees
     for x, y in edges:
-        adj_list[y].append(x)  # Dependency: y -> x (y must come before x)
-        indegree[x] += 1
+        
+        adj_list[x].append(y)  # Dependency: x -> y (x must come before y)
+        indegree[y] += 1
+        # For some problems, like course schedule, the input is inverted
+        # in those scenarios, we need to swap the variable places
+        '''
+        for x, y in prerequisites:
+            adj_list[y].append(x)
+            indegree[x] += 1
+        '''
         
     # Initialize the queue with all nodes having 0 in-degree
     que = deque(i for i in range(n) if indegree[i] == 0)
@@ -60,9 +68,9 @@ def topological_sort_dynamic(edges):
     adj_list = defaultdict(list)
     indegree = defaultdict(int)
     
-    for x, y in edges:
-        adj_list[y].append(x)
-        indegree[x] += 1
+    for x, y in edges: # Assuming the edge is x->y, can be reverse for example course schedule
+        adj_list[x].append(y)
+        indegree[y] += 1
         
         # Accessing indegree[y] forces defaultdict to create a default entry (0)
         # ensuring independent source nodes are captured.
@@ -98,9 +106,9 @@ def has_cycle_bfs_static(n, edges):
     adj_list = defaultdict(list)
     indegree = [0] * n  # Fixed array
 
-    for x, y in edges: # Assuming y -> x
-        adj_list[y].append(x)
-        indegree[x] += 1
+    for x, y in edges: # Assuming x -> y
+        adj_list[x].append(y)
+        indegree[y] += 1
 
     que = deque(i for i in range(n) if indegree[i] == 0)
     visited_count = 0
@@ -125,10 +133,10 @@ def has_cycle_bfs_dynamic(edges):
     adj_list = defaultdict(list)
     indegree = defaultdict(int)
 
-    for x, y in edges: # Assuming y -> x
-        adj_list[y].append(x)
-        indegree[x] += 1
-        indegree[y]  # Force 'y' into the dictionary with default 0
+    for x, y in edges: # Assuming x -> y
+        adj_list[x].append(y)
+        indegree[y] += 1
+        indegree[x]  # Force 'x' into the dictionary with default 0
 
     que = deque(node for node, count in indegree.items() if count == 0)
     visited_count = 0
