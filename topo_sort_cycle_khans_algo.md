@@ -1,7 +1,7 @@
 # Khan's Algorithm [Directed Only]
 
 
-We can use this to do three different things
+We can use this to do two different things
 
 - Topo Sort
 - Cycle Detection
@@ -13,11 +13,11 @@ is self-explanatory
 ![indegree](/assets/images/indegree.png)
 
 ### How Khans Algo works ?
-Initially create an indegree dict/list, where indegree[x] == #incomming_edges
+Initially create an indegree dict/list, where indegree[x] == #incoming_edges
 
 
-We keep s que, where initially we insert all the zero indegree items.
-Then as we pop items, we reduce all childs indegree by one, as that parent is done now. We
+We keep a queue, where initially we insert all the zero indegree items.
+Then as we pop items, we reduce all child's indegree by one, as that parent is done now. We
 Treat indegree as dependency, reducing them one by one until its 0 and we can also mark it as done
 
 ## Topological Sort using Khans Algorithm
