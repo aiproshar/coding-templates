@@ -72,10 +72,10 @@ def topological_sort_dynamic(edges):
         adj_list[x].append(y)
         indegree[y] += 1
         
-        # Accessing indegree[y] forces defaultdict to create a default entry (0)
-        # ensuring independent source nodes are captured.
-        # If Y is already there with some values, this does nothing, just a safeguard
-        indegree[y]
+        # Accessing indegree[x] forces defaultdict to create a default entry (0)
+        # ensuring independent source nodes are captured who has no indegree
+        # If x is already there with some values, this does nothing, just a safeguard
+        indegree[x]
     
     # Initialize the queue with nodes that have an in-degree of 0
     que = deque(node for node, ind_count in indegree.items() if ind_count == 0) 
