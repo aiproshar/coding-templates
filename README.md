@@ -40,8 +40,14 @@ All code is Python.
 
 | Topic | What's inside |
 | --- | --- |
-| [Backtracking](backtrack.md) | The CCG framework (Choices, Constraints, Goals), the generic backtrack skeleton, and the 2D grid variant with state restore. |
+| [Backtracking](backtrack.md) | The CCG framework (Choices, Constraints, Goals), the generic skeleton, and the 2D grid variant with state restore — then the two families it generates: subsets (take-it-or-leave-it, plus the sort-and-skip duplicate handling) and combinations (fixed length with early pruning, combination sum both ways). |
 | [Dynamic Programming](dp.md) | The 5-step framework (objective function, base cases, recurrence, order of computation, where the answer lives), applied top-down and bottom-up to Climbing Stairs and Min Cost Climbing Stairs. |
+
+## Bit Manipulation
+
+| Topic | What's inside |
+| --- | --- |
+| [Bitmask](bitmask.md) | An int used as a **set**: the cheat sheet (test/set/clear/toggle and the precedence bug), the three low-bit idioms (`mask & -mask`, `mask & (mask - 1)`, `(1 << k) - 1`), then four patterns — one set per node (reachability, character sets), enumerating subsets and submasks, bitmask DP with the subset as the state, and state compression in BFS. Ends with why bit *tricks* are a different topic. |
 
 ## Planned
 
