@@ -47,8 +47,11 @@ a & b == 0                    # a and b are disjoint
 
 mask.bit_count()              # popcount, Python 3.10+
 bin(mask).count("1")          # popcount, works everywhere
-mask & -mask                  # lowest set bit, isolated (e.g. 0110 -> 0010)
 mask.bit_length() - 1         # index of the highest set bit
+
+mask & -mask                  # ISOLATE the lowest set bit   (0110 -> 0010)
+mask & (mask - 1)             # CLEAR   the lowest set bit   (0110 -> 0100)
+(1 << k) - 1                  # k ones starting at bit 0     (k=3 -> 0111)
 ```
 
 Note `a | b` on ints is **the same operator** as `a | b` on sets. When you convert
@@ -80,6 +83,76 @@ if not (mask >> i) & 1:       # correct, and reads nicely
 - Do not confuse the **mask** (which elements) with the **index** (which element).
   `1 << i` converts index → mask; `.bit_length() - 1` converts a single-bit mask → index.
 
+## The three low-bit idioms
+
+These three show up constantly and look like magic until you see the borrow.
+Worth being able to derive on the spot, because an interviewer may well ask *why*.
+
+### `mask & -mask` → isolate the lowest set bit
+
+In two's complement, `-mask == ~mask + 1`. Adding 1 to the inverted value carries
+all the way up through the trailing ones until it lands on the lowest set bit. The
+result: everything **above** the lowest set bit is flipped, the lowest set bit
+itself is unchanged, everything below is still zero. AND them and only that one
+bit survives.
+
+```text
+    mask      = 0101 1000
+    ~mask     = 1010 0111
+    -mask     = 1010 1000     (~mask + 1)
+    mask & -mask = 0000 1000  <- one bit, always a power of two
+```
+
+### `mask & (mask - 1)` → clear the lowest set bit
+
+Subtracting 1 borrows from the lowest set bit: that bit becomes 0 and every zero
+below it becomes 1. Everything above is untouched. AND with the original and the
+lowest set bit is the only thing that disappears.
+
+```text
+    mask         = 0101 1000
+    mask - 1     = 0101 0111
+    mask & (m-1) = 0101 0000  <- lowest set bit gone
+```
+
+Two immediate uses. **Kernighan's popcount**, which loops once per set bit rather
+than once per bit position:
+
+```python
+count = 0
+while mask:
+    mask &= mask - 1          # kill one bit per iteration
+    count += 1
+```
+
+And the **power-of-two test**, since a power of two has exactly one set bit:
+
+```python
+is_power_of_two = mask > 0 and mask & (mask - 1) == 0
+```
+
+### `(1 << k) - 1` → k ones from bit 0
+
+`1 << k` is a single 1 at position `k`; subtracting 1 borrows all the way down and
+fills every position below it. This is the same construction as the full mask
+`(1 << n) - 1`, just used as a **window** instead of "everything":
+
+```text
+    1 << 3       = 1000
+    (1 << 3) - 1 = 0111        <- the low 3 bits
+```
+
+Combine it with a shift to grab an arbitrary field — the low `k` bits starting at
+position `p`:
+
+```python
+field = (mask >> p) & ((1 << k) - 1)
+```
+
+That is how you pack several small numbers into one integer (a common trick when a
+DP state is a tuple of small values and you want a cheap single key), and how row
+masks get sliced in grid problems like Maximum Students Taking Exam.
+
 ## Walking the set bits
 
 Two idioms. The first is O(n) regardless of how full the mask is:
@@ -99,11 +172,13 @@ while m:
     low = m & -m               # isolate lowest set bit
     i = low.bit_length() - 1   # its index
     ...                        # i is in the set
-    m ^= low                   # clear it and continue
+    m ^= low                   # clear it and continue -- same as  m &= m - 1
 ```
 
-`m & -m` works because of two's complement: negating flips all bits above the
-lowest set bit and leaves that bit alone, so the AND keeps exactly one bit.
+Both idioms from the previous section are in play here: `m & -m` picks the bit
+out, and clearing it (`m ^= low`, or equivalently `m &= m - 1`) is what makes the
+loop terminate. If you do not need the index — only the count — drop straight to
+Kernighan's `m &= m - 1`.
 
 ## Pattern 01: One Set Per Node [Reachability]
 
