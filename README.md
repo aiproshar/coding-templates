@@ -15,6 +15,7 @@ All code is Python.
 | [Kahn's Algorithm](topo_sort_cycle_khans_algo.md) | Indegree-based topological sort and cycle detection, in both known-`n` and dynamic (nodes discovered from edges) forms. |
 | [Disjoint Set Union](dsu.md) | Union-Find with path compression and union by rank, why rank only bumps on ties, and the `union` return value as a cycle signal. |
 | [Minimum Spanning Tree](mst_prims.md) | Prim's algorithm with a min-heap, plus the disconnected-graph corner case. |
+| [Floyd-Warshall](floyd_warshall.md) | All-pairs shortest path in three loops: adjacency-matrix seeding (weighted / hops / boolean), why `k` must be the outermost loop with a counterexample, negative-cycle detection, Warshall's transitive closure, and a decision guide against Dijkstra / Bellman-Ford / BFS. |
 
 ## Search
 
@@ -56,5 +57,5 @@ Not written yet:
 - Trees (traversals, BST)
 - Monotonic stack
 - Prefix sums
-- Dijkstra / shortest paths
+- Dijkstra / Bellman-Ford (see [Floyd-Warshall](floyd_warshall.md) for the all-pairs case)
 - Kruskal's algorithm (see [MST](mst_prims.md), currently Prim's only)

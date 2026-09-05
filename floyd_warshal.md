@@ -75,3 +75,27 @@ for x, y in edges:
                 for j in range(n):
                     matrix[i][j] = matrix[i][j] or (matrix[i][k] and matrix[k][j])
 ```
+
+
+### Problems to solve
+
+# Practice Problems
+
+
+
+## Basic Straightforward
+
+- **[1334. Find the City With the Smallest Number of Neighbors at a Threshold Distance](https://leetcode.com/problems/find-the-city-with-the-smallest-number-of-neighbors-at-a-threshold-distance/)**
+  
+- **[1462. Course Schedule IV](https://leetcode.com/problems/course-schedule-iv/)** 
+ 
+
+## Recognizing FW when it isn't announced
+
+- **[2976. Minimum Cost to Convert String I](https://leetcode.com/problems/minimum-cost-to-convert-string-i/)** 
+
+- **[2101. Detonate the Maximum Bombs](https://leetcode.com/problems/detonate-the-maximum-bombs/)**
+
+- **[399. Evaluate Division](https://leetcode.com/problems/evaluate-division/)**
+
+
