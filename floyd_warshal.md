@@ -60,6 +60,15 @@ for k in range(n):
             matrix[i][j] = min(matrix[i][j], matrix[i][k] + matrix[k][j])
 ```
 
+negative cycle detection, run the three loops first, then just look at the diagonal
+```python
+# matrix[i][i] started at 0. If it went below 0, there is a path
+# that leaves i and comes back cheaper than free -> negative cycle
+for i in range(n):
+    if matrix[i][i] < 0:
+        return True
+```
+
 for reachability detection using boolean matrix
 ```python
 matrix = [[False] * n for _ in range(n)]
