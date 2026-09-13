@@ -50,3 +50,20 @@ class Solution:
 
 Time Complexity: ElogE for sort, and it's the dominating factor
 Space Complexity: O(E)
+
+## Advanced MST using kruskals
+
+In a MST, every edge of a graph can be categorized in one of three:
+
+- critical -> Every MST needs it, if you skip you cannot build a MST anymeans
+- psudo critical -> At least one MST needs but not every
+- others -> Not part of any MST
+
+Kruskal Algo works with edge directly, so it's easy to classify edges
+
+How we can find the critical and psudo-critical edges ?
+
+Leetcode has a problem, which uses kruskals variation (force pick and force reject) to classify edges
+
+Solution: 
+https://github.com/aiproshar/Online-Judge-Solutions/blob/master/LeetCode/1489.%20Find%20Critical%20and%20Pseudo-Critical%20Edges%20in%20Minimum%20Spanning%20Tree.py
