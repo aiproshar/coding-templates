@@ -152,3 +152,19 @@ def has_cycle_bfs_dynamic(edges):
     # Compare against the dynamic length of our dictionary
     return visited_count != len(indegree)
 ```
+
+
+# Problems to solve for Topological Sort
+
+
+### Medium
+
+- https://leetcode.com/problems/course-schedule
+- https://leetcode.com/problems/course-schedule-ii/
+### Hard Variant
+- https://leetcode.com/problems/minimum-height-trees/description/
+- https://leetcode.com/problems/alien-dictionary/
+
+## Level by level Topo Sort
+- https://leetcode.com/problems/parallel-courses/description/
+- https://leetcode.com/problems/parallel-courses-ii/
