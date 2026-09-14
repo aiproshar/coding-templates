@@ -80,7 +80,7 @@ def dfs(self, source, adj_list: defaultdict(list), color: list, finish_time) -> 
 ```
 Note: same as before, we must run DFS on each source, if source already BLACK skip. This includes totally disconnected and non SCC nodes
 
-# Cycle detection in undirected graph
+# Cycle detection in undirected graph [HARD]
 
 In an undirected graph, a connected graph that isn't a Tree has a cycle (a disconnected acyclic graph is a forest, not a cycle).
 One quick way is a tree of n nodes will always have n-1 edges, not more not less.
@@ -130,3 +130,6 @@ return True
     # No Cycle no forest, we good
     return True
 ```
+
+#### Problems to solve
+- https://leetcode.com/problems/graph-valid-tree/description/
