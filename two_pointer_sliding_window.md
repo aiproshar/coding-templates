@@ -1,3 +1,57 @@
-## Two Pointer
+# Sliding Window
 
-TODO
+One single template to rule em all, extend window. Then keep shrinking until window is invalid
+
+### Variable Length Window
+This is variable window, we grow until its invalid, then continue shrink until its valid again
+```python
+i = 0
+j = 0
+# i is left window start position
+# j is right window end position
+global_max = 0
+for j in range(len(array)):
+    
+    # modify state to include array[i], can be anything. freq, sum ect
+    state_update(nums[j])
+    
+    # if including nums[j] made the state invalid, start shrinking
+    #  until our window is valid again
+    while (state is not valid):
+        # undo operation
+        state_remove(nums[i])
+        i += 1
+    # Now we are in valid state, do the global update whatever we're looking for
+    global_max = max(global_max, current_state_value)
+    # max could be min or even anything, or simply trying to see if state can reach some constant
+    
+    
+
+```
+
+
+### Fixed Window length
+
+For a fixed window, our window size is always constant, and its the first condition.
+ALways check j - i + 1 == k first, if we grown past K, reduce
+
+
+```python
+i = 0
+global_max = 0
+
+for j in range(len(nums)):
+
+    # 1. add the new right element to the state
+    state_update(nums[j])
+
+    # 2. window size is j - i + 1. If it exceeds k, drop the left element
+    if j - i + 1 > k:
+        state_remove(nums[i])
+        i += 1
+    
+    # skipping initial windows  < k while we are growing
+    # 3. only record an answer once the window has reached size k
+    if j - i + 1 == k:
+        global_max = max(global_max, current_state_value)
+```
