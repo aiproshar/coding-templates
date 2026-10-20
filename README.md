@@ -15,6 +15,7 @@ All code is Python.
 | [Kahn's Algorithm](topo_sort_cycle_khans_algo.md) | Indegree-based topological sort and cycle detection, in both known-`n` and dynamic (nodes discovered from edges) forms. |
 | [Disjoint Set Union](dsu.md) | Union-Find with path compression and union by rank, why rank only bumps on ties, and the `union` return value as a cycle signal. |
 | [Minimum Spanning Tree](mst_prims.md) | Prim's algorithm with a min-heap, plus the disconnected-graph corner case. |
+| [Kruskal's Algorithm](mst_kruskals.md) | Sort edges and union with DSU, stop early at `n - 1` edges, and the force-pick / force-reject variant for classifying critical and pseudo-critical edges. |
 | [Eulerian Path / Hierholzer's](euler_path_hierholzer.md) | Use every edge exactly once: the degree conditions for a path vs a circuit, the proof that a greedy walk can only get stuck at the true endpoint, post-order DFS with `deque.popleft()`, and the lexicographic variant. |
 | [Floyd-Warshall](floyd_warshal.md) | All-pairs shortest path in three loops: adjacency-matrix seeding (weighted / hops / boolean), why `k` must be the outermost loop with a counterexample, negative-cycle detection, Warshall's transitive closure, and a decision guide against Dijkstra / Bellman-Ford / BFS. |
 
@@ -30,7 +31,8 @@ All code is Python.
 | Topic | What's inside |
 | --- | --- |
 | [Intervals](intervals.md) | The overlap test, segment sweep (merge), event sweep (max concurrent), the heap alternative, interval intersection with two pointers, and the sort-by-end-time greedy. |
-| [Two Pointers & Sliding Window](two_pointer_sliding_window.md) | 🚧 Stub — not written yet. |
+| [Sliding Window](sliding_window.md) | One grow-then-shrink template: the variable-length window (shrink while invalid, then record), the fixed-length window (drop the left element once size exceeds `k`), what to watch for, and a problem list with the hard variants. |
+| [Two Pointers & Prefix Sum](two_pointers_prefix.md) | 🚧 Stub — not written yet. |
 
 ## Sorting & Heaps
 
@@ -57,6 +59,4 @@ Not written yet:
 
 - Trees (traversals, BST)
 - Monotonic stack
-- Prefix sums
 - Dijkstra / Bellman-Ford (see [Floyd-Warshall](floyd_warshal.md) for the all-pairs case)
-- Kruskal's algorithm (see [MST](mst_prims.md), currently Prim's only)
