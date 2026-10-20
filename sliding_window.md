@@ -10,7 +10,7 @@ j = 0
 # i is left window start position
 # j is right window end position
 global_max = 0
-for j in range(len(array)):
+for j in range(len(nums)):
     
     # modify state to include array[i], can be anything. freq, sum ect
     state_update(nums[j])
@@ -55,3 +55,26 @@ for j in range(len(nums)):
     if j - i + 1 == k:
         global_max = max(global_max, current_state_value)
 ```
+
+### Some Things to Consider
+
+- Modify the input array if necessary, for example we can sort
+- Upon exiting from invalid state, sometimes we need to do additional check. For example specific size window
+- Some Problems require to update to invalid state (LC 209 )
+
+
+### Todo Problems:
+
+#### Basic Straight Forward
+- https://leetcode.com/problems/longest-substring-without-repeating-characters/description/
+- https://leetcode.com/problems/max-consecutive-ones-iii/
+- https://leetcode.com/problems/permutation-in-string/description/
+
+
+# Hard Variants [Must do]
+- https://leetcode.com/problems/fruit-into-baskets/description/
+- https://leetcode.com/problems/sliding-window-maximum/description/
+- https://leetcode.com/problems/minimum-window-substring/description/
+- https://leetcode.com/problems/frequency-of-the-most-frequent-element/description/ (Weird math in state calculation)
+- https://leetcode.com/problems/minimum-size-subarray-sum/description/ (Optimize in invalid State)
+- https://leetcode.com/problems/subarray-product-less-than-k/description/ (weird math in state calculation)
