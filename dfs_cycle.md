@@ -1,7 +1,7 @@
 ## DFS [Directed, Undirected]
 
-We can use DFS for cycle detection in directed graph. In undirected graph, cycle detection means the graph is a not valid tree
-Using DFS we can also find finish time, which's reverse is topological sort
+We can use DFS for cycle detection in directed graph. In undirected graph, cycle detection means the graph is not a valid tree
+Using DFS we can also find finish time, whose reverse is topological sort
 
 ### So using DFS
 - **Directed Graph**: Cycle Detection, DAG or DCG ? Topo sort
@@ -91,7 +91,7 @@ If we dont have exactly n-1 edges, we can early terminate
 
 ## Edge cases
 - child of current node can be parent, as the graph is undirected. We must exclude this. How we do this ? We need to know the parent of 
-current node, so if we send this along with the param, we good. A seperate parent dict also work but overkill
+current node, so if we send this along with the param, we good. A separate parent dict also work but overkill
 - We must keep a visited set or also can use visited_count as count of nodes we mark black. If The graph is a forest, we will have less
 than n vertex marked as visited. 
 ```python

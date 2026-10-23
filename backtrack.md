@@ -1,14 +1,14 @@
  # Backtrack Basics
  
-There is basically one single framework, CCG: Choices, Constrains, Goals
+There is basically one single framework, CCG: Choices, Constraints, Goals
 
 Choices → Where can we go from current state
 
-Constrains → Are we jumping into a valid state space ? What constrains we have ? For example out of bound in a 2D grid and already visited nodes
+Constraints → Are we jumping into a valid state space ? What constraints we have ? For example out of bound in a 2D grid and already visited nodes
 
 Goals → What we want to achieve ? For example in word search on 2D matrix our goal is can we find the word ?
 
-#### This is called the CCG framework, and this is standard. Lets see how this unfolds on a psudocode
+#### This is called the CCG framework, and this is standard. Lets see how this unfolds on a pseudocode
 
 ```python
 def backtrack(state, ...):
@@ -18,7 +18,7 @@ def backtrack(state, ...):
         results.append(list(state)) 
         return
     # invalid case, we don't want to move forward anymore
-    if invalid(state): # Constrains, we dont move forward
+    if invalid(state): # Constraints, we dont move forward
         return
 
     # 2. EXPLORE CHOICES
@@ -96,7 +96,7 @@ class Solution:
         backtrack(0, [])
         return res
 ```
-At each depth, we only think about a specific element, we add it and skip in in all
+At each depth, we only think about a specific element, we add it and skip it in all
 branches that reaches that depth
 
 Here is the viz for [1,2,3]
@@ -120,7 +120,6 @@ Here is the viz for [1,2,3]
 
 Another method is take from the available rest
 ```python
-```python3
 class Solution:
     def subsets(self, nums: List[int]) -> List[List[int]]:
         
@@ -165,7 +164,7 @@ Problem: https://leetcode.com/problems/subsets-ii/description/
 
 ## Type 02: Combination
 Combination is a subset, where each subset is a specific length. For example from [1,2,3,4] if we 
-take 2 elements, it can be 1,2/2,3/3,4/1,3/1,4/2,4 ect 
+take 2 elements, it can be 1,2/2,3/3,4/1,3/1,4/2,4 etc 
 From [1,2,3,4] if we take all we will have only 1 combination, [1,2,3,4]
 nCr = n!/ {(n-r)!r!}  [pick r elements from n]
 
@@ -184,7 +183,7 @@ class Solution:
             # second: how many elements we need and we also have
             # if we need 5 elements and have 4 whatever way we go we dont get k elements
             # Off by one corner case, in I state we have not decided to take /skip i yet
-            # so n - i + 1 is inclusivae how many we need to have kelements
+            # so n - i + 1 is inclusive how many we need to have k elements
             # (+1) because we haven't taken for its position yet
             if i > n or n - i  + 1 < k - len(current):
                 return
@@ -200,7 +199,7 @@ class Solution:
 - Todo: https://leetcode.com/problems/combinations/description/
 
 Additional: Combination Sum: Instead of taking specific sized subsets, we take the subsets
-when they add upto specific target, also keep track of current sum for lower complexity
+when they add up to specific target, also keep track of current sum for lower complexity
 Also handle duplicate case by forward move
 - https://leetcode.com/problems/combination-sum
 - https://leetcode.com/problems/combination-sum-ii
@@ -220,7 +219,7 @@ class Solution:
             if i >= len(candidates) or sum_ > target:
                 return
             
-            # take i the element
+            # take ith element
             current.append(candidates[i])
             backtrack(i, sum_ + candidates[i], current)
             current.pop()
@@ -259,6 +258,6 @@ class Solution2:
 - https://leetcode.com/problems/letter-combinations-of-a-phone-number/description/
 
 ## Super Hard
-- https://leetcode.com/problems/word-break-ii/description/ [DP, we cannot pass current state, buildup state as we return,
+- https://leetcode.com/problems/word-break-ii/description/ [DP, we cannot pass current state, build up state as we return,
 but also solvable via raw backtrack and state forward propagation, but TLE]
 

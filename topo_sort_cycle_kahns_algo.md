@@ -1,4 +1,4 @@
-# Khan's Algorithm [Directed Only]
+# Kahn's Algorithm [Directed Only]
 
 
 We can use this to do two different things
@@ -12,15 +12,15 @@ is self-explanatory
 
 ![indegree](/assets/images/indegree.png)
 
-### How Khans Algo works ?
+### How Kahn's Algo works ?
 Initially create an indegree dict/list, where indegree[x] == #incoming_edges
 
 
 We keep a queue, where initially we insert all the zero indegree items.
-Then as we pop items, we reduce all child's indegree by one, as that parent is done now. We
+Then as we pop items, we reduce all children's indegree by one, as that parent is done now. We
 Treat indegree as dependency, reducing them one by one until its 0 and we can also mark it as done
 
-## Topological Sort using Khans Algorithm
+## Topological Sort using Kahn's Algorithm
 
 ```python
 from collections import defaultdict, deque
@@ -59,7 +59,7 @@ def topological_sort_known_n(n, edges):
     return order
 ```
 
-Another way, what if we don't know numbers of distinct nodes, and we need to find them out from edges
+Another way, what if we don't know number of distinct nodes, and we need to find them out from edges
 
 ```python
 from collections import defaultdict, deque
@@ -93,10 +93,10 @@ def topological_sort_dynamic(edges):
     return order
 ```
 
-## Cycle Detection using Khans Algo
+## Cycle Detection using Kahn's Algo
 Kahn’s algorithm can inherently detect deadlocks. If a graph contains a directed cycle, 
 the nodes involved in that loop will never see their indegree drop to $0$. They will remain trapped inside the 
-dependency bubble and never enter the queue.Therefore, if the number of elements processed in our topological 
+dependency bubble and never enter the queue. Therefore, if the number of elements processed in our topological 
 sort is less than the total number of unique elements in our graph, a cycle must exist.
 
 ```python

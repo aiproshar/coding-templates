@@ -12,12 +12,12 @@ All code is Python.
 | --- | --- |
 | [BFS](bfs.md) | Adjacency list setup, basic BFS, level-order traversal with a depth map, 2D grid BFS (direction vectors, bound checks), and multi-source BFS. |
 | [DFS & Cycle Detection](dfs_cycle.md) | White/grey/black colouring for back-edge detection in directed graphs, topological sort from finish times, and the undirected variant (parent skip, forest check). |
-| [Kahn's Algorithm](topo_sort_cycle_khans_algo.md) | Indegree-based topological sort and cycle detection, in both known-`n` and dynamic (nodes discovered from edges) forms. |
+| [Kahn's Algorithm](topo_sort_cycle_kahns_algo.md) | Indegree-based topological sort and cycle detection, in both known-`n` and dynamic (nodes discovered from edges) forms. |
 | [Disjoint Set Union](dsu.md) | Union-Find with path compression and union by rank, why rank only bumps on ties, and the `union` return value as a cycle signal. |
 | [Minimum Spanning Tree](mst_prims.md) | Prim's algorithm with a min-heap, plus the disconnected-graph corner case. |
 | [Kruskal's Algorithm](mst_kruskals.md) | Sort edges and union with DSU, stop early at `n - 1` edges, and the force-pick / force-reject variant for classifying critical and pseudo-critical edges. |
 | [Eulerian Path / Hierholzer's](euler_path_hierholzer.md) | Use every edge exactly once: the degree conditions for a path vs a circuit, the proof that a greedy walk can only get stuck at the true endpoint, post-order DFS with `deque.popleft()`, and the lexicographic variant. |
-| [Floyd-Warshall](floyd_warshal.md) | All-pairs shortest path in three loops: adjacency-matrix seeding (weighted / hops / boolean), why `k` must be the outermost loop with a counterexample, negative-cycle detection, Warshall's transitive closure, and a decision guide against Dijkstra / Bellman-Ford / BFS. |
+| [Floyd-Warshall](floyd_warshall.md) | All-pairs shortest path in three loops: adjacency-matrix seeding (weighted / hops / boolean), why `k` must be the outermost loop with a counterexample, negative-cycle detection, Warshall's transitive closure, and a decision guide against Dijkstra / Bellman-Ford / BFS. |
 
 ## Search
 
@@ -59,4 +59,4 @@ Not written yet:
 
 - Trees (traversals, BST)
 - Monotonic stack
-- Dijkstra / Bellman-Ford (see [Floyd-Warshall](floyd_warshal.md) for the all-pairs case)
+- Dijkstra / Bellman-Ford (see [Floyd-Warshall](floyd_warshall.md) for the all-pairs case)

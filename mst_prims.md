@@ -5,14 +5,14 @@ For any connected undirected graph, the spanning tree is a subgraph where each c
 If a graph is weighted, then each spanning tree will have different cost. MST means the spanning tree with minimum cost
 
 2 Algorithms, both greedy
-* Prims Algorithm
-* Kruskals Algorithm (prerequisite: [Disjoint Set Union](/dsu.md))
+* Prim's Algorithm
+* Kruskal's Algorithm (prerequisite: [Disjoint Set Union](/dsu.md))
 
-## Prims Algorithm
+## Prim's Algorithm
 - Pick a random source vertex
 - Mark it as visited
 - Push all of its edges into a minheap
-- While items in minheap, pop the min cost edge, if the destination vertex not already visited, mark it as visited. Also push all of its edges into the heap. Oh, also please check if the destination of those edges are visited or not (i know you are already lost. you can curse [prim](https://en.wikipedia.org/wiki/Robert_C._Prim))
+- While items in minheap, pop the min cost edge, if the destination vertex not already visited, mark it as visited. Also push all of its edges into the heap. Oh, also please check if the destination of those edges are visited or not (I know you are already lost. you can curse [prim](https://en.wikipedia.org/wiki/Robert_C._Prim))
 
 
 ```python
@@ -50,7 +50,7 @@ class Solution:
                     heapq.heappush(heap, (cost, child))
 
         # corner case handling, graph can be disconnected, example image below
-        # for corner case, the MST we get will be a components part, and depends on the initial random source node. So we return error (-1)
+        # for corner case, the MST we get will be a component's part, and depends on the initial random source node. So we return error (-1)
         if len(visited) != n:
             return -1
         return total_cost
@@ -59,7 +59,7 @@ class Solution:
 
 
 # Complexity
-TIme complexity: E operations on the Heap , So O(E log E)
+Time complexity: E operations on the Heap , So O(E log E)
 Space complexity: O(V + E)
 
-If you want explanation, past the code to claude and ask. YaY
+If you want explanation, paste the code to claude and ask. YaY

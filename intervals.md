@@ -14,8 +14,8 @@ Example Operations:
 
 
 ### How to detect if two intervals overlapped ?
-There are a couple of edge cases here, if you think if X2 starts before X1 ends, there maybe a overlap,
-but there maybe X2 also ended Before X1, and all other cases
+There are a couple of edge cases here, if you think if X2 starts before X1 ends, there may be an overlap,
+but there may be X2 also ended Before X1, and all other cases
 - X1 consumes X2
 - X2 Consumes X1
 - X1 extends X2, Vice Versa
@@ -52,9 +52,9 @@ why we sort, and we only check for neighbors one by one
 Problem: https://leetcode.com/problems/merge-intervals
 ```python
 # Example of Segment Sweep: LeetCode 56 Merge overlapped intervals
-# Point to be noted we dont doing exact diagonal check, 
+# Point to be noted we don't do exact diagonal check, 
 # because as the list is sorted, next intervals starts before current ends, we have overlap
-# We just need to check if they overlaps
+# We just need to check if they overlap
 class Solution:
     def merge(self, intervals: List[List[int]]) -> List[List[int]]:
         
@@ -78,11 +78,11 @@ Problem:
 This one is a bit interesting and also complicated, but it's beautiful. We want to know how
 many intervals are we in currently, example no of meeting rooms we need
 
-We create a event stream, (time, type) and we process that stream. When we have a interval event, 
+We create an event stream, (time, type) and we process that stream. When we have an interval event, 
 if its opening we increase current concurrent, if closing event we decrease
 
 ```python
-**class Solution:
+class Solution:
     def minMeetingRooms(self, intervals: List[List[int]]) -> int:
 
         events = []
@@ -93,7 +93,7 @@ if its opening we increase current concurrent, if closing event we decrease
         max_concurrent = 0
         # [1,3], [3,5] is not overlap here
         events.sort(key=lambda x: (x[0], x[1]))
-        # If the problem stats [1,3], [3,5] is overlap here, then we want to 
+        # If the problem states [1,3], [3,5] is overlap here, then we want to 
         # increment first and decrement, we want 1 appear before -1 on same timestamp
         # So inverse second key make it behave like max heap
         events.sort(key=lambda x: (x[0], -x[1]))  # -x[1] instead x[1]
@@ -105,7 +105,7 @@ if its opening we increase current concurrent, if closing event we decrease
             max_concurrent = max(max_concurrent, current)
         return max_concurrent
 # Time Complexity: O(nlogn)
-# Space Complexity: O(n)**
+# Space Complexity: O(n)
 ```
 ### **_3. Max Overlap Using Heap [Event Sweep Alternative]_**
 Problem: https://leetcode.com/problems/meeting-rooms-ii
@@ -142,11 +142,11 @@ A is a list of intervals, where intervals are non overlapping. Same for B
 
 **_Each list of intervals is pairwise disjoint and in sorted order_**
 
-But A and B has common overlays, we need to find them
+But A and B has common overlaps, we need to find them
 
 ![img.png](assets/images/intersection_intervals.png)
 
-We use two pointer methind, also need to make sure we sort A and B if not already sorted
+We use two pointer method, also need to make sure we sort A and B if not already sorted
 Problem: https://leetcode.com/problems/interval-list-intersections
 
 ```python
@@ -161,7 +161,7 @@ class Solution:
                 end = min(firstList[i][1], secondList[j][1])
                 overlaps.append([start, end])
             # While moving, we move from the one that ends earliest
-            # We dont care if they overlap or all, the prevous code already checked
+            # We dont care if they overlap or not, the previous code already checked
             # And accounted that for
             if firstList[i][1] < secondList[j][1]:
                     i += 1

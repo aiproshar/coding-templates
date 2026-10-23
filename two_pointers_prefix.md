@@ -3,7 +3,7 @@
 
 ## Basic Two pointer Based Solution
 - https://leetcode.com/problems/container-with-most-water/description/
-- https://leetcode.com/problems/3sum/description/ (deplicate Skip, Use Global Property (sorted array))
+- https://leetcode.com/problems/3sum/description/ (duplicate Skip, Use Global Property (sorted array))
 - https://leetcode.com/problems/4sum/description/ (Extension of 3 sum)
 
 ## Two Pointers Read Write
