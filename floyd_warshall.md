@@ -49,7 +49,7 @@ for x, y in edges:
 
 # Floyd Warshall Algorithm
 All pair shortest path. It's like running Dijkstra for every single source. This is one of the easiest and most versatile graph algorithm, works on any kind of graphs and
-finds all pair shortest path distance / reachability. The output is n*n matrix where we can have 
+finds all pair shortest path distance / reachability. The output is an n*n matrix where matrix[i][j] is the shortest distance (or reachability) from i to j.
 
 Works on directed or undirected, weighted or unweighted, and handles negative edge weights, but not negative cycles, which it instead detects via matrix[i][i] < 0
 only three for loops

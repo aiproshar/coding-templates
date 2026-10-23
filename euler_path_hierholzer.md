@@ -38,7 +38,7 @@ trails and no way to join them. Vertices with no edges at all are fine — you a
 covering edges, not vertices.
 
 Finding the source is the same dynamic-dictionary trick as [Kahn's
-Algorithm](/topo_sort_cycle_khans_algo.md), where nodes are discovered from the
+Algorithm](/topo_sort_cycle_kahns_algo.md), where nodes are discovered from the
 edges rather than being `0..n-1`:
 
 ```python

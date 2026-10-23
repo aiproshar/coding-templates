@@ -120,7 +120,6 @@ Here is the viz for [1,2,3]
 
 Another method is take from the available rest
 ```python
-```python3
 class Solution:
     def subsets(self, nums: List[int]) -> List[List[int]]:
         
