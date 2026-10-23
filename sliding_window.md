@@ -12,7 +12,7 @@ j = 0
 global_max = 0
 for j in range(len(nums)):
     
-    # modify state to include array[i], can be anything. freq, sum ect
+    # modify state to include nums[j], can be anything. freq, sum etc
     state_update(nums[j])
     
     # if including nums[j] made the state invalid, start shrinking
@@ -33,7 +33,7 @@ for j in range(len(nums)):
 ### Fixed Window length
 
 For a fixed window, our window size is always constant, and its the first condition.
-ALways check j - i + 1 == k first, if we grown past K, reduce
+Always check j - i + 1 == k first, if we grow past k, reduce
 
 
 ```python
@@ -65,7 +65,7 @@ for j in range(len(nums)):
 
 ### Todo Problems:
 
-#### Basic Straight Forward
+#### Basic Straightforward
 - https://leetcode.com/problems/longest-substring-without-repeating-characters/description/
 - https://leetcode.com/problems/max-consecutive-ones-iii/
 - https://leetcode.com/problems/permutation-in-string/description/

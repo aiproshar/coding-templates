@@ -6,7 +6,7 @@ Kruskal only thinks about edges, and its time complexity is directly tied to edg
 As DSU operations (union/find) are almost constant
 
 ### The Idea
-We sort all the edges, start from smallest. Everytime we pick a edge, we check are they already
+We sort all the edges, start from smallest. Every time we pick an edge, we check are they already
 connected via DSU, if not connect them. If they already connected, we can discard. They connected before means
 it was done with better edges or another path
 
@@ -32,7 +32,7 @@ class Solution:
         '''
         Actual Kruskal starts here
         Sort the edges based on cost and
-        Keep union until we have exactly n-1 vertex in union
+        Keep union until we have exactly n-1 edges in union
         '''
         edges.sort()
         total_cost = 0
@@ -42,7 +42,7 @@ class Solution:
                 total_cost += cost
                 edges_count += 1
                 # Early termination
-                # All MST with n nodes has exactly n-1 edges, that's wy it's a tree
+                # All MST with n nodes has exactly n-1 edges, that's why it's a tree
                 if edges_count == n - 1:
                     break 
         return total_cost
@@ -51,19 +51,19 @@ class Solution:
 Time Complexity: ElogE for sort, and it's the dominating factor
 Space Complexity: O(E)
 
-## Advanced MST using kruskals
+## Advanced MST using Kruskal's
 
 In a MST, every edge of a graph can be categorized in one of three:
 
-- critical -> Every MST needs it, if you skip you cannot build a MST anymeans
-- psudo critical -> At least one MST needs but not every
+- critical -> Every MST needs it, if you skip you cannot build a MST by any means
+- pseudo-critical -> At least one MST needs but not every
 - others -> Not part of any MST
 
 Kruskal Algo works with edge directly, so it's easy to classify edges
 
-How we can find the critical and psudo-critical edges ?
+How we can find the critical and pseudo-critical edges ?
 
-Leetcode has a problem, which uses kruskals variation (force pick and force reject) to classify edges
+Leetcode has a problem, which uses Kruskal's variation (force pick and force reject) to classify edges
 
 Solution: 
 https://github.com/aiproshar/Online-Judge-Solutions/blob/master/LeetCode/1489.%20Find%20Critical%20and%20Pseudo-Critical%20Edges%20in%20Minimum%20Spanning%20Tree.py

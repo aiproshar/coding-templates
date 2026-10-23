@@ -1,4 +1,4 @@
-# Breath First Search [Directed / Undirected]
+# Breadth First Search [Directed / Undirected]
 ## Defining Node Class
 
 ```python
@@ -12,7 +12,7 @@ class GraphNode:
         self.property = property
         self.neighbors = list(GraphNode)
         # For weighted   graph
-        self.neighbours = list((GraphNode, weight:int))
+        self.neighbors = list((GraphNode, weight:int))
 ```
 
 ## Using Adjacency List
@@ -22,7 +22,7 @@ class GraphNode:
 
 adj_list = defaultdict(list)
 
-# x -> y : a node in undirected graph
+# x -> y : an edge in undirected graph
 
 adj_list[x].append(y)
 adj_list[y].append(x)
@@ -45,7 +45,7 @@ def bfs(source, adj_list: defaultdict(list)) -> None:
     que = deque()
     que.append(source)
     
-    # Visited set, this can be also an list
+    # Visited set, this can be also a list
     visited = {source}
 
     while que:
@@ -97,7 +97,7 @@ def bfs(source, adj_list: defaultdict(list)) -> None:
         queue = deque()
         queue.append((i, j)) #-> Queue of co-ordinates
         grid[i][j] = "0"
-        # The direction is the most important thing, it represents the childs
+        # The direction is the most important thing, it represents the children
         # Also need to do bound checking
 
         #left right updown
@@ -170,12 +170,12 @@ def bfs(heights, sources: list[tuple[int, int]]) -> set:
                     nx, ny = x + dx, y + dy
                     # check boundary
                     if 0 <= nx < len(heights) and 0 <= ny < len(heights[0]):
-                        # Can be any validation logic for child explre
+                        # Can be any validation logic for child explore
                         # Below is just an example
                         if heights[nx][ny] >= heights[x][y] and (nx, ny) not in visited:
                             # Add to que also add to visited, or modify original
                             # in such a way we dont do revisit, eg. marking as None
                             visited.add((nx, ny))
                             que.append((nx, ny))
-            return # What is relevant, childs explore, grid if its modified, cost whatever
+            return # What is relevant, children explore, grid if its modified, cost whatever
 ```

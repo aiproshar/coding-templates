@@ -195,7 +195,7 @@ step one node too far onto `4` (the causing node) — that is the classic bug.
 - **Space: O(1)** — just two pointers. This is the whole point of Floyd over a
   hashset / visited-array approach, which would cost O(N) space.
 
-## MUST DO while revisit problems
+## MUST DO while revisiting problems
 
 * https://leetcode.com/problems/linked-list-cycle/  (does a cycle exist)
 

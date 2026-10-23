@@ -4,7 +4,7 @@ Framework from Andrey Grehov's [Dynamic Programming for Beginners](https://githu
 (YouTube course, solutions in Go, lecture3-lecture17)
 
 DP is both easy and hard, if you cannot figure things out, for example the state space tree
-and the base cases, you will circle around and produce buddy code, which is impossible to debug
+and the base cases, you will circle around and produce buggy code, which is impossible to debug
 
 But when everything clicks, its usually 3-4 lines of code and we done
 
@@ -21,7 +21,7 @@ Memoize so our Time Complexity reduces from state space C^N to O(N)
         Bottom Up for Iterative (HARD)
 - ### Where is the Answer
         dp[n] usually for bottom up, topdown we design Objective function in a way it returns
-        There are also exceptions, we can have external global state ect
+        There are also exceptions, we can have external global state etc
 
 ## Framework in Action: Climbing Stairs
 

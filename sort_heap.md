@@ -56,7 +56,7 @@ class Solution:
 ```
 
 ### Third Option and Safest One: Merge Sort
-I was able to wrote this up in one try, so this is pretty easy and safest to come up in 
+I was able to write this up in one try, so this is pretty easy and safest to come up in 
 a pressure cooker situation.
 ```python
 class Solution:
@@ -92,10 +92,10 @@ class Solution:
 # In DFS, only one root to leaf is active at a time YaY
 ```
 
-### 4th and Hadest: Using Custom Heap Class
+### 4th and Hardest: Using Custom Heap Class
 
-This problems has a space of on its own, build a heap data structure, or implement a priority 
-que Abstract Data Type (ADT)
+This problem has a space of its own, build a heap data structure, or implement a priority 
+queue Abstract Data Type (ADT)
 
 Try to avoid this at any cost, in a sort problem. If interviewer asks us to implement priority ADT,
 this is the backup
@@ -109,7 +109,7 @@ Production Grade and learnt from real implementation, not suitable for pressure-
 Their heap Class will have 5 methods, Yikes ! 
 I wrote the below code in one sitting, zero bug. Revise this as heap implementation
 
-We didn't write dedicated heapify functon, just build the initial heap from n items
+We didn't write dedicated heapify function, just build the initial heap from n items
 by inserting elements (push) one by one.
 '''
 class Heap:
@@ -171,12 +171,12 @@ class Solution:
 # Space Complexity: O(n)
 ```
 
-### Additional Stuffs, If interviewer pushes **_Constant Space_** nlog sort !
+### Additional Stuff, If interviewer pushes **_Constant Space_** n log n sort !
 - In Place sort implementation, that is hard. There is a heap version with heapify method, which constructs heap
 from n items in place, but hopefully will not be needed
 
 Below is Gemini Produced True In Place Heap Sort, this does not necessarily implement the heap class with
-pus/pop functionality, but uses the core bubble down logic to sort an array in place
+push/pop functionality, but uses the core bubble down logic to sort an array in place
 ```python
 class Solution:
     def sortArray(self, nums: List[int]) -> List[int]:
