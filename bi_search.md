@@ -17,7 +17,7 @@ One example array throughout, so you can see how each query behaves on the
 
 - **exact:**       returns `2` (or -1 if absent) — via left bound + a check
 - **left bound:**  returns `2`  — first 5
-- **right bound:** returns `4`  — last 5
+- **right bound:** returns `5`  — the insertion point for the next 5 (last 5 is at 5 - 1 = 4). Can equal len(nums) if target ≥ the last element.
 
 Same array, same target, different answers — but **the same loop**. They only
 differ in **one comparison operator** and how you read the result.
